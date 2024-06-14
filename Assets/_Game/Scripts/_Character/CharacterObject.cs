@@ -24,7 +24,6 @@ public class CharacterObject : ICharacter
 
     public bool isDead;
     protected bool isMoving;
-    private bool isAttack = false;
     protected string currentAnim;
     protected List<GameUnit> skinItemList = new List<GameUnit>();
     public List<CharacterObject> targetList = new List<CharacterObject>();
@@ -64,19 +63,8 @@ public class CharacterObject : ICharacter
                     RemoveTarget(currentTarget);
                 }
             }
-            if (isAttack)
-            {
-                // If the animation is playing, reset it to the beginning
-                anim.Play("Attack", 0, 0f);
-                isAttack = false;
-            }
-            else
-            {
-                // Set the boolean to true to play the animation
-                ResetAnim();
-                ChangeAnimation(Constant.ANIM_IS_ATTACK);
-                isAttack = true;
-            }
+            ResetAnim();
+            ChangeAnimation(Constant.ANIM_IS_ATTACK);
         }
     }
 

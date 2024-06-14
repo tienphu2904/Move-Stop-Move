@@ -20,7 +20,7 @@ public class Skin : UICanvas
     public void CloseButton()
     {
         UIManager.Ins.OpenUI<MainMenu>();
-        skinItemComponent.OnTrySkinItem(skinItemComponent.equippedSkin());
+        skinItemComponent.OnTrySkinItem(skinItemComponent.EquippedSkin());
         Close(0);
     }
 

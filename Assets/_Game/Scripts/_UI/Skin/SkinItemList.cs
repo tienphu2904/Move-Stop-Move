@@ -77,7 +77,7 @@ public class SkinItemList : MonoBehaviour
         LevelManager.Ins.player.ClearSkin();
     }
 
-    public SkinItemUICard equippedSkin()
+    public SkinItemUICard EquippedSkin()
     {
         ShopItem equippedShopItemData = (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.statusType == StatusType.Equipped);
         return skinItemUIList.Find(i => i.skinItem.id == equippedShopItemData.id && i.shopCategory == equippedShopItemData.shopCategory);
@@ -126,17 +126,14 @@ public class SkinItemList : MonoBehaviour
         List<ShopItem> shopItem = userData.Dict["ShopData"] as List<ShopItem>;
         for (int i = 0; i < shopItem.Count; i++)
         {
-            if (shopItem[i].shopCategory == currentShopCategory)
+            if (shopItem[i].statusType == StatusType.Equipped)
             {
-                if (shopItem[i].statusType == StatusType.Equipped)
-                {
-                    shopItem[i].statusType = StatusType.Available;
-                }
+                shopItem[i].statusType = StatusType.Available;
+            }
 
-                if (shopItem[i].id == currentSkinItem.skinItem.id)
-                {
-                    shopItem[i].statusType = StatusType.Equipped;
-                }
+            if (shopItem[i].shopCategory == currentShopCategory && shopItem[i].id == currentSkinItem.skinItem.id)
+            {
+                shopItem[i].statusType = StatusType.Equipped;
             }
         }
         userData.SetData("ShopData", shopItem);

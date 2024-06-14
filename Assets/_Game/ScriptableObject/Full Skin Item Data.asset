@@ -58,7 +58,7 @@ MonoBehaviour:
     - skinType: 5
       poolType: 0
       material: {fileID: 2100000, guid: 1cd0aab71cd144ef295e5ccac7b6771e, type: 2}
-  - id: 2
+  - id: 3
     cost: 200
     prbItemSprite: {fileID: 21300000, guid: 7965f490c2ec6044d854d957fe85186e, type: 3}
     skinFragments:
@@ -68,7 +68,7 @@ MonoBehaviour:
     - skinType: 5
       poolType: 0
       material: {fileID: 2100000, guid: 7684f271261b848cb9d4ab8d8d0ada3e, type: 2}
-  - id: 3
+  - id: 4
     cost: 200
     prbItemSprite: {fileID: 21300000, guid: 0363a7557b133774f99bf84dcf6fcbed, type: 3}
     skinFragments:
