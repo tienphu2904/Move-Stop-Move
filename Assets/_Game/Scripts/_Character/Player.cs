@@ -1,76 +1,120 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : CharacterObject
 {
-    [SerializeField] private Animator anim;
-    [SerializeField] private Transform weaponPosition;
-    [SerializeField] private Transform headSkinItemPosition, backSkinItemPosition, tailSkinItemPosition, leftHandSkinItemPosition;
-    [SerializeField] private SkinnedMeshRenderer pantMesh, bodyMesh;
-    [SerializeField] private Material defaultBodyMat;
-    private string currentAnim;
-    private List<GameObject> skinItemList = new List<GameObject>();
+    [Header("Player")]
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private GameObject circleOutline;
+    private WeaponShopItem equippedWeaponData => (DataManager.Ins.UserData.Dict["WeaponShopData"] as List<WeaponShopItem>).Find(i => i.statusType == StatusType.Equipped);
+    private ShopItem currentSkinData => (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.statusType == StatusType.Equipped);
 
     private void Start()
     {
-        ChangeAnim(Constant.ANIM_IDLE);
+        ChangeAnimation(Constant.ANIM_IS_IDLE);
     }
 
-    public void ChangeAnim(string animName)
+    private void Update()
     {
-        if (currentAnim != animName)
+        if (GameManager.Ins.IsState(GameState.Gameplay) && !isDead)
         {
-            anim.ResetTrigger(currentAnim);
-            currentAnim = animName;
-            anim.SetTrigger(currentAnim);
-        }
-    }
-
-    public void ChangeSkin(SkinItem item)
-    {
-        Transform parent = transform;
-        foreach (SkinFragment skinFragment in item.skinFragments)
-        {
-            switch (skinFragment.skinType)
+            if (Input.GetMouseButton(0))
             {
-                case SkinType.Head:
-                    GameObject headSkinFrag = Instantiate(skinFragment.prbSkinItem, headSkinItemPosition);
-                    skinItemList.Add(headSkinFrag);
-                    break;
-                case SkinType.Back:
-                    GameObject backSkinFrag = Instantiate(skinFragment.prbSkinItem, backSkinItemPosition);
-                    skinItemList.Add(backSkinFrag);
-                    break;
-                case SkinType.LeftHand:
-                    GameObject leftHandSkinFrag = Instantiate(skinFragment.prbSkinItem, leftHandSkinItemPosition);
-                    skinItemList.Add(leftHandSkinFrag);
-                    break;
-                case SkinType.Tail:
-                    GameObject tailSkinFrag = Instantiate(skinFragment.prbSkinItem, tailSkinItemPosition);
-                    skinItemList.Add(tailSkinFrag);
-                    break;
-                case SkinType.Pant:
-                    pantMesh.material = skinFragment.material;
-                    break;
-                case SkinType.Body:
-                    bodyMesh.material = skinFragment.material;
-                    break;
-                default:
-                    break;
+                Vector3 nextPoint = JoystickControl.direct * speed * Time.deltaTime + TF.position;
+
+                TF.position = CheckGround(nextPoint);
+
+                if (JoystickControl.direct != Vector3.zero)
+                {
+                    character.forward = JoystickControl.direct;
+                }
+                isMoving = true;
+                ChangeAnimation(Constant.ANIM_IS_RUN);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                isMoving = false;
+                ChangeAnimation(Constant.ANIM_IS_IDLE);
+            }
+            if (currentTarget == null)
+            {
+                FindTarget();
+            }
+            else
+            {
+                currentTarget.EnableTargetMark(true);
+                if (!isMoving && characterSkin.currentWeapon.CanAttack)
+                {
+                    OnAttack();
+                }
             }
         }
     }
 
-    public void ClearSkin()
+    //Target control
+    public override void AddTarget(CharacterObject target)
     {
-        foreach (GameObject item in skinItemList)
-        {
-            Destroy(item.gameObject);
-        }
-        skinItemList.Clear();
-        pantMesh.materials = new Material[0];
-        bodyMesh.material = defaultBodyMat;
+        base.AddTarget(target);
+        // if (!IsDead && !target.IsDead && currentTarget == null)
+        // {
+        // target.EnableTargetMark(true);
+        // if (!isMoving && characterSkin.currentWeapon.CanAttack)
+        // {
+        //     OnAttack();
+        // }
+        // }
     }
+
+    public override void RemoveTarget(CharacterObject target)
+    {
+        base.RemoveTarget(target);
+        target.EnableTargetMark(false);
+    }
+
+    public void Setup()
+    {
+        TF.forward = Vector3.back;
+        circleOutline.SetActive(GameManager.Ins.IsState(GameState.Gameplay) ? true : false);
+        characterSkin.ChangeWeapon(LevelManager.Ins.weaponItemData.itemDataList[equippedWeaponData.id]);
+        characterSkin.ChangeSkin(LevelManager.Ins.shopItemData.SkinItemDataList[(int)currentSkinData.shopCategory].itemDataList[currentSkinData.id]);
+    }
+
+    // ICharacter inherit
+    public override void OnInit()
+    {
+        base.OnInit();
+        circleOutline.SetActive(GameManager.Ins.IsState(GameState.Gameplay) ? true : false);
+    }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+    }
+
+    public override void OnAttack()
+    {
+        base.OnAttack();
+        // if (currentTarget != null && characterSkin.currentWeapon.CanAttack)
+        // {
+        //     if (!currentTarget.IsDead)
+        //     {
+        //         ResetAnim();
+        //         Attack();
+        //     }
+        //     else
+        //     {
+        //         RemoveTarget(currentTarget);
+        //     }
+        // }
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+    }
+
 }

@@ -1,20 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Skin : UICanvas
 {
-    [SerializeField] private CameraFollow cameraFollow;
+    [SerializeField] private TextMeshProUGUI coinText;
+    [SerializeField] private SkinItemList skinItemComponent;
+
+    private int coinValue => ((PlayerData)DataManager.Ins.UserData.Dict["PlayerData"]).coin;
 
     private void OnEnable()
     {
-        LevelManager.Ins.player.ChangeAnim(Constant.ANIM_DANCE);
-        // cameraFollow.SetTarget(LevelManager.Ins.player.transform.position + Vector3.up * 2);
+        LevelManager.Ins.player.ChangeAnimation(Constant.ANIM_IS_DANCE);
+        CameraFollow.Ins.ChangeCameraType(CameraFollowType.Shop);
+        UpdateCoinText();
     }
 
     public void CloseButton()
     {
         UIManager.Ins.OpenUI<MainMenu>();
+        skinItemComponent.OnTrySkinItem(skinItemComponent.equippedSkin());
         Close(0);
+    }
+
+
+    private void UpdateCoinText()
+    {
+        coinText.text = coinValue.ToString();
     }
 }

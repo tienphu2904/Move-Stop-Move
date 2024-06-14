@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d123f3ee8664b949eca6e89437462f, type: 3}
+  m_Name: Head Item Data
+  m_EditorClassIdentifier: 
+  itemDataList:
+  - id: 0
+    cost: 20
+    prbItemSprite: {fileID: 21300000, guid: 2f8937590677b044b8619858abca9ecf, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 24
+      material: {fileID: 0}
+  - id: 1
+    cost: 30
+    prbItemSprite: {fileID: 21300000, guid: 7ecc7cd28cb66fb41ac2e56ca5e22d5c, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 25
+      material: {fileID: 0}
+  - id: 2
+    cost: 40
+    prbItemSprite: {fileID: 21300000, guid: a50fa6b5fea3d264cbec440c2da1dbf8, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 26
+      material: {fileID: 0}
+  - id: 3
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 5dd6afb8b1bc7b947853e77fc8811be4, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 27
+      material: {fileID: 0}
+  - id: 4
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 16a71104cd40fbd408c2919484df4cd7, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 28
+      material: {fileID: 0}
+  - id: 5
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 76e934370403f35428e37cc379bed4c7, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 29
+      material: {fileID: 0}
+  - id: 6
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 69fc10e773b5a814198a5883e168c2b7, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 30
+      material: {fileID: 0}
+  - id: 7
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 694f596b7929bdb409ba3630631783d9, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 31
+      material: {fileID: 0}
+  - id: 8
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: c72f60a9ff619e54ea03f81d8477c714, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 32
+      material: {fileID: 0}
+  - id: 9
+    cost: 50
+    prbItemSprite: {fileID: 21300000, guid: 0721f07e295ea594ba265006fe888315, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 33
+      material: {fileID: 0}

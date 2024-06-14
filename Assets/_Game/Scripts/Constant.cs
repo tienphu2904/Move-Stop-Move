@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class Constant
 {
-    public const string ANIM_ATTACK = "attack";
-    public const string ANIM_DANCE = "dance";
-    public const string ANIM_DIE = "dead";
-    public const string ANIM_IDLE = "idle";
-    public const string ANIM_RUN = "run";
-    public const string ANIM_ULTI = "ulti";
-    public const string ANIM_WIN = "win";
+    //Animation 
+    public const string ANIM_IS_IDLE = "IsIdle";
+    public const string ANIM_IS_DEAD = "IsDead";
+    public const string ANIM_IS_ATTACK = "IsAttack";
+    public const string ANIM_IS_WIN = "IsWin";
+    public const string ANIM_IS_DANCE = "IsDance";
+    public const string ANIM_IS_RUN = "IsRun";
 
+    //Tag
     public const string TAG_CHARACTER = "Character";
-    public const string TAG_BLOCK = "Block";
+    public const string TAG_SPHERE_SIGHT = "SphereSight";
+
+    //Character info
+    public const float CHARACTER_SIGHT_RADIUS = 6f;
 }

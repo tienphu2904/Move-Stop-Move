@@ -246,6 +246,11 @@ MonoBehaviour:
   selectFrame: {fileID: 7505956683589750361}
   lockImage: {fileID: 9015458027713046601}
   equippedImage: {fileID: 8105499015547240044}
+  skinItem:
+    id: 0
+    cost: 0
+    prbItemSprite: {fileID: 0}
+    skinFragments: []
   skinItemList: {fileID: 0}
 --- !u!1 &6546655431139305732
 GameObject:
@@ -550,7 +555,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4606940152041065234
 RectTransform:
   m_ObjectHideFlags: 0
@@ -626,7 +631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &927508177594900068
 RectTransform:
   m_ObjectHideFlags: 0

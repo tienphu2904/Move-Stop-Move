@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d123f3ee8664b949eca6e89437462f, type: 3}
+  m_Name: Full Skin Item Data
+  m_EditorClassIdentifier: 
+  itemDataList:
+  - id: 0
+    cost: 200
+    prbItemSprite: {fileID: 21300000, guid: 591bf6bd34c3a3c4e9143ba55a6c7d7b, type: 3}
+    skinFragments:
+    - skinType: 3
+      poolType: 44
+      material: {fileID: 0}
+    - skinType: 1
+      poolType: 39
+      material: {fileID: 0}
+    - skinType: 0
+      poolType: 32
+      material: {fileID: 0}
+    - skinType: 5
+      poolType: 0
+      material: {fileID: 2100000, guid: 8804153425fee4736b3568b0423161ea, type: 2}
+  - id: 1
+    cost: 200
+    prbItemSprite: {fileID: 21300000, guid: 9f8e6f5ea0f849447b464193072ab6f3, type: 3}
+    skinFragments:
+    - skinType: 2
+      poolType: 43
+      material: {fileID: 0}
+    - skinType: 0
+      poolType: 35
+      material: {fileID: 0}
+    - skinType: 1
+      poolType: 37
+      material: {fileID: 0}
+    - skinType: 5
+      poolType: 0
+      material: {fileID: 2100000, guid: 7834103cdfb7747838b843424af1563d, type: 2}
+  - id: 2
+    cost: 200
+    prbItemSprite: {fileID: 21300000, guid: 916eb971e2dc28b419a242fa6950df78, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 34
+      material: {fileID: 0}
+    - skinType: 2
+      poolType: 42
+      material: {fileID: 0}
+    - skinType: 5
+      poolType: 0
+      material: {fileID: 2100000, guid: 1cd0aab71cd144ef295e5ccac7b6771e, type: 2}
+  - id: 2
+    cost: 200
+    prbItemSprite: {fileID: 21300000, guid: 7965f490c2ec6044d854d957fe85186e, type: 3}
+    skinFragments:
+    - skinType: 1
+      poolType: 38
+      material: {fileID: 0}
+    - skinType: 5
+      poolType: 0
+      material: {fileID: 2100000, guid: 7684f271261b848cb9d4ab8d8d0ada3e, type: 2}
+  - id: 3
+    cost: 200
+    prbItemSprite: {fileID: 21300000, guid: 0363a7557b133774f99bf84dcf6fcbed, type: 3}
+    skinFragments:
+    - skinType: 0
+      poolType: 36
+      material: {fileID: 0}
+    - skinType: 5
+      poolType: 0
+      material: {fileID: 2100000, guid: 61887801be5314fa3837a8b4749fb129, type: 2}

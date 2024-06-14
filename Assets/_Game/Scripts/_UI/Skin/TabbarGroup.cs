@@ -40,7 +40,7 @@ public class TabbarGroup : MonoBehaviour
         ResetTab();
         tabbarItem.background.ChangeAlpha(0f);
         skinItemList.RemoveAllListItem();
-        skinItemList.SpawnListItem(tabbarItem.itemData);
+        skinItemList.SpawnListItem(tabbarItem.itemData, tabbarItem.shopCategory);
     }
 
     public void ResetTab()

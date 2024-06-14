@@ -11,12 +11,30 @@ public class SkinItemUICard : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject selectFrame, lockImage, equippedImage;
     public SkinItem skinItem;
     public SkinItemList skinItemList;
+    public ShopCategory shopCategory;
 
-    public void Setup(SkinItem item)
+    public void Setup(SkinItem item, ShopCategory shopCategory)
     {
+        this.shopCategory = shopCategory;
         skinItem = item;
         itemImage.sprite = skinItem.prbItemSprite;
-        switch (skinItem.status)
+        UpdateUI();
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        skinItemList.OnTrySkinItem(this);
+    }
+
+    public void SetActiveSelectFrame(Boolean isSelect)
+    {
+        selectFrame.SetActive(isSelect);
+    }
+
+    public void UpdateUI()
+    {
+        ShopItem shopData = (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.id == skinItem.id && i.shopCategory == shopCategory);
+        switch (shopData.statusType)
         {
             case StatusType.Lock:
                 lockImage.SetActive(true);
@@ -31,15 +49,5 @@ public class SkinItemUICard : MonoBehaviour, IPointerClickHandler
                 equippedImage.SetActive(true);
                 break;
         }
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        skinItemList.OnItemSelected(this);
-    }
-
-    public void SetActiveSelectFrame(Boolean isSelect)
-    {
-        selectFrame.SetActive(isSelect);
     }
 }

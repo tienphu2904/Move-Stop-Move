@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Image))]
 public class TabbarItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
+    public ShopCategory shopCategory;
     public SkinItemData itemData;
     public TabbarGroup tabbarGroup;
     public Image background;
