@@ -14,17 +14,17 @@ public class DataManager : Singleton<DataManager>
 
     // private UserData _userData;
     private string filePath;
-    private static readonly List<string> _mandatoryKeyList = new List<string> { "ShopData" };
+    private static readonly List<string> _mandatoryKeyList = new List<string> { Constant.DATA_SHOPDATA };
     public static readonly ReadOnlyCollection<string> MandatoryKeyList = _mandatoryKeyList.AsReadOnly();
+    public int CoinValue => ((PlayerData)UserData.Dict[Constant.DATA_PLAYERDATA]).coin;
+    public List<ShopItem> shopItemList => UserData.Dict[Constant.DATA_SHOPDATA] as List<ShopItem>;
+    public List<WeaponShopItem> weaponItemList => UserData.Dict[Constant.DATA_WEAPONDATA] as List<WeaponShopItem>;
     public UserData UserData { get => LoadData(); set => SaveData(value); }
+
 
     private void Start()
     {
         filePath = Path.Combine(Application.persistentDataPath, "savefile.dat");
-        // LoadData();
-        // GetDefaultData();
-        // SaveData();
-        // LoadData();
     }
 
     public void SaveData(UserData userData)
@@ -50,30 +50,25 @@ public class DataManager : Singleton<DataManager>
         return userData;
     }
 
-    // public void GetDataFromFile()
-    // {
-    //     try
-    //     {
-    //         var fs = File.Open(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
-    //         BinaryFormatter bf = new BinaryFormatter();
-    //         _userData = (UserData)bf.Deserialize(fs);
-    //         fs.Close();
-    //     }
-    //     catch
-    //     {
-    //         _userData = new UserData();
-    //     }
-    // }
+    public void UpdatePlayerData(int coinAmount, ShopItem shopItem = null, WeaponShopItem weaponShopItem = null)
+    {
+        UserData userData = UserData;
+        PlayerData playerData = userData.GetData(Constant.DATA_PLAYERDATA, new PlayerData());
+        playerData.coin += coinAmount;
+        if (shopItem != null)
+        {
+            playerData.currentSkinItem = shopItem;
+        }
+        if (weaponShopItem != null)
+        {
+            playerData.currentWeaponItem = weaponShopItem;
+        }
 
-    // public void WriteAllDataToFile()
-    // {
-    //     var fs = File.Open(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
-    //     BinaryFormatter bf = new BinaryFormatter();
-    //     bf.Serialize(fs, _userData);
-    //     fs.Close();
-    // }
+        userData.SetData(Constant.DATA_PLAYERDATA, playerData);
+        UserData = userData;
+    }
 
-    public UserData GetDefaultData()
+    private UserData GetDefaultData()
     {
         UserData userData = new();
 
@@ -81,9 +76,9 @@ public class DataManager : Singleton<DataManager>
         List<WeaponShopItem> weaponShopItemLists = GenerateDefaultWeaponData();
         PlayerData playerData = GenerateDefaultPlayerData(weaponShopItemLists);
 
-        userData.SetData("ShopData", shopItemLists);
-        userData.SetData("WeaponShopData", weaponShopItemLists);
-        userData.SetData("PlayerData", playerData);
+        userData.SetData(Constant.DATA_SHOPDATA, shopItemLists);
+        userData.SetData(Constant.DATA_WEAPONDATA, weaponShopItemLists);
+        userData.SetData(Constant.DATA_PLAYERDATA, playerData);
 
         return userData;
     }

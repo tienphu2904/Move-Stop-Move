@@ -7,7 +7,7 @@ public class PatrolState : IState<Bot>
     public void OnEnter(Bot t)
     {
         t.ChangeAnimation(Constant.ANIM_IS_RUN);
-        Vector3 randomPoint = t.currentMap.GetRandomPointOnNavMesh(t.transform.position, 20f);
+        Vector3 randomPoint = t.currentMap.GetRandomPointOnNavMesh(t.TF.position, 20f);
         t.SetDestination(randomPoint);
     }
 

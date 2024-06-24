@@ -10,32 +10,34 @@ public class WeaponObject : GameUnit
 
     [SerializeField] private PoolType bulletType;
 
-    public bool CanAttack = true;
+    private bool canAttack = true;
+
+    public bool CanAttack { get => canAttack; set => canAttack = value; }
 
     private void OnInit()
     {
-        transform.gameObject.SetActive(true);
+        TF.gameObject.SetActive(true);
         Invoke(nameof(ChangeCanAttack), SHOOT_CAN_ATTACK_TIME);
     }
 
 
-    public IEnumerator Shoot(CharacterObject character, Vector3 target, float size)
+    public IEnumerator Shoot(CharacterObject character, Vector3 target, Vector3 startPoint, float size)
     {
         CanAttack = false;
 
         yield return new WaitForSeconds(SHOOT_DELAY_TIME);
 
         BulletObject bullet = SimplePool.Spawn<BulletObject>(bulletType, TF.position, Quaternion.identity);
-        bullet.OnInit(character, target + TF.position.y * Vector3.up, size);
+        bullet.OnInit(character, target + TF.position.y * Vector3.up, startPoint, size);
         bullet.TF.localScale = size * Vector3.one;
-        transform.gameObject.SetActive(false);
+        TF.gameObject.SetActive(false);
 
         Invoke(nameof(OnInit), SHOOT_SHOW_WEAPOM);
     }
 
-    private void ChangeCanAttack()
+    public void ChangeCanAttack()
     {
-        CanAttack = true;
+        canAttack = true;
     }
 
     // public void Throw(CharacterObject character, Action<CharacterObject, CharacterObject> onHit)

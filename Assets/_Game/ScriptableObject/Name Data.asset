@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3dec4428047f4de3a7f097f20de8796, type: 3}
+  m_Name: Name Data
+  m_EditorClassIdentifier: 
+  characterNames:
+  - Harry
+  - Ron
+  - Hermione
+  - Hagrid
+  - Albus
+  - Black
+  - Lupin
+  - Fred
+  - Geoger
+  - Molly
+  - Arthur
+  - Peccy
+  - Tom
+  - Ridder
+  - Bill
+  - Snape
+  - Shiba
+  - Doraemon
+  - Nami
+  - Chopper
+  - John
+  - Na
+  - Draco
+  - Lucius
+  - Peter
+  - Ginny
+  - Nagini
+  - Cho
+  - Newt
+  - Filch
+  - Fleur
+  - Moody
+  - Myrtle
+  - Fluffy
+  - Nott
+  - Binns
+  - Charlie
+  - Oliver
+  - Wood
+  - Wesley
+  - Hedwig
+  - Cedric
+  - Umbridge
+  - Neville
+  - Dobby
+  - Granger
+  - Potter
+  - Severus
+  - Luna
+  - Xiu

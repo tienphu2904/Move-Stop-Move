@@ -327,6 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDestroyOnClose: 1
+  playerAmount: {fileID: 6666314902904198955}
 --- !u!1 &7049173048018468151
 GameObject:
   m_ObjectHideFlags: 0

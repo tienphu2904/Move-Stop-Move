@@ -10,7 +10,6 @@ public class GameUnit : MonoBehaviour
     {
         get
         {
-            //tf = tf ?? gameObject.transform;
             if (tf == null)
             {
                 tf = transform;

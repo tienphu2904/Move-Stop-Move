@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6271460912949987603}
   - component: {fileID: 3594911813630575198}
-  - component: {fileID: 3682498630525454073}
+  - component: {fileID: 3872037505566737104}
   m_Layer: 0
   m_Name: Bullet_Boomerang
   m_TagString: Untagged
@@ -53,9 +53,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7, y: 0.25, z: 1}
+  m_Size: {x: 1, y: 0.25, z: 1}
   m_Center: {x: 0, y: 0, z: 0.0158844}
---- !u!114 &3682498630525454073
+--- !u!114 &3872037505566737104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7277686325570782556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 911b43a6ac12947f1b32d28d0df5d19f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a17036be883a457ba030c9ce35c6b0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 17
@@ -96,7 +96,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cb6e597070ed41f4eb5cb9583c725959, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.247
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: cb6e597070ed41f4eb5cb9583c725959, type: 3}
       propertyPath: m_LocalPosition.y

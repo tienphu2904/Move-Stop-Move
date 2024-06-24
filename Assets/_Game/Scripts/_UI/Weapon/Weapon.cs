@@ -13,10 +13,10 @@ public class Weapon : UICanvas
     [SerializeField] private GameObject buyButton, selectButton, equippedButton;
 
     private WeaponItem currentWeapon;
-    private WeaponShopItem currentWeaponData => (DataManager.Ins.UserData.Dict["WeaponShopData"] as List<WeaponShopItem>).Find(i => i.id == currentWeapon.id);
-    private WeaponShopItem equippedWeaponData => (DataManager.Ins.UserData.Dict["WeaponShopData"] as List<WeaponShopItem>).Find(i => i.statusType == StatusType.Equipped);
+    private WeaponShopItem currentWeaponData => (DataManager.Ins.UserData.Dict[Constant.DATA_WEAPONDATA] as List<WeaponShopItem>).Find(i => i.id == currentWeapon.id);
+    private WeaponShopItem equippedWeaponData => (DataManager.Ins.UserData.Dict[Constant.DATA_WEAPONDATA] as List<WeaponShopItem>).Find(i => i.statusType == StatusType.Equipped);
 
-    private int coinValue => ((PlayerData)DataManager.Ins.UserData.Dict["PlayerData"]).coin;
+    private int coinValue => DataManager.Ins.CoinValue;
 
     private void OnEnable()
     {
@@ -99,27 +99,19 @@ public class Weapon : UICanvas
     {
         UserData userData = DataManager.Ins.UserData;
 
-        List<WeaponShopItem> weaponShopItem = userData.Dict["WeaponShopData"] as List<WeaponShopItem>;
+        List<WeaponShopItem> weaponShopItem = userData.Dict[Constant.DATA_WEAPONDATA] as List<WeaponShopItem>;
         for (int i = 0; i < weaponShopItem.Count; i++)
         {
             weaponShopItem[i].statusType = weaponShopItem[i].statusType == StatusType.Equipped ? StatusType.Available : weaponShopItem[i].statusType;
             weaponShopItem[i].statusType = weaponShopItem[i].id == currentWeaponData.id ? StatusType.Equipped : weaponShopItem[i].statusType;
         }
-        userData.SetData("WeaponShopData", weaponShopItem);
+        userData.SetData(Constant.DATA_WEAPONDATA, weaponShopItem);
         DataManager.Ins.UserData = userData;
     }
 
     private void OnBuyWeapon()
     {
-        UserData userData = DataManager.Ins.UserData;
-
-        PlayerData playerData = userData.GetData("PlayerData", new PlayerData());
-        playerData.coin -= currentWeapon.cost;
-        playerData.currentWeaponItem = currentWeaponData;
-
-        userData.SetData("PlayerData", playerData);
-
-        DataManager.Ins.UserData = userData;
+        DataManager.Ins.UpdatePlayerData(coinAmount: -currentWeapon.cost);
     }
 
     private void UpdateCoinText()

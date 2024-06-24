@@ -11,7 +11,7 @@ public class CharacterSight : MonoBehaviour
         if (other.CompareTag(Constant.TAG_CHARACTER))
         {
             CharacterObject target = Cache.GetCharacter(other);
-            if (!target.IsDead)
+            if (!target.IsDead && target != character)
             {
                 character.AddTarget(target);
             }

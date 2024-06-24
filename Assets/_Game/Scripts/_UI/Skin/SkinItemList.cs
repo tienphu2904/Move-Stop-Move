@@ -13,8 +13,8 @@ public class SkinItemList : MonoBehaviour
     public ShopCategory currentShopCategory;
     public SkinItemUICard currentSkinItem;
     public List<SkinItemUICard> skinItemUIList = new List<SkinItemUICard>();
-    private ShopItem currentShopItemData => (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.id == currentSkinItem.skinItem.id && i.shopCategory == currentShopCategory);
-    private int coinValue => ((PlayerData)DataManager.Ins.UserData.Dict["PlayerData"]).coin;
+    private ShopItem currentShopItemData => DataManager.Ins.shopItemList.Find(i => i.id == currentSkinItem.skinItem.id && i.shopCategory == currentShopCategory);
+    private int coinValue => DataManager.Ins.CoinValue;
 
     public void SpawnListItem(SkinItemData itemData, ShopCategory shopCategory)
     {
@@ -77,10 +77,12 @@ public class SkinItemList : MonoBehaviour
         LevelManager.Ins.player.ClearSkin();
     }
 
-    public SkinItemUICard EquippedSkin()
+    public void EquipCorrectSkin()
     {
-        ShopItem equippedShopItemData = (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.statusType == StatusType.Equipped);
-        return skinItemUIList.Find(i => i.skinItem.id == equippedShopItemData.id && i.shopCategory == equippedShopItemData.shopCategory);
+        ResetItemList();
+        ShopItem equippedShopItemData = DataManager.Ins.shopItemList.Find(i => i.statusType == StatusType.Equipped);
+        SkinItem skinItem = LevelManager.Ins.shopItemData.SkinItemDataList[(int)equippedShopItemData.shopCategory].itemDataList[equippedShopItemData.id];
+        LevelManager.Ins.player.ChangeSkin(skinItem);
     }
 
     public void BuySkinButton()
@@ -89,7 +91,7 @@ public class SkinItemList : MonoBehaviour
         {
             OnBuySkin();
             OnEquipSkin();
-            //TODO update coin
+            UIManager.Ins.GetUI<Skin>().UpdateCoinText();
             SetStatusButton(equippedButtonStatus: true);
         }
     }
@@ -108,22 +110,14 @@ public class SkinItemList : MonoBehaviour
 
     private void OnBuySkin()
     {
-        UserData userData = DataManager.Ins.UserData;
-
-        PlayerData playerData = userData.GetData("PlayerData", new PlayerData());
-        playerData.coin -= currentSkinItem.skinItem.cost;
-        playerData.currentSkinItem = currentShopItemData;
-
-        userData.SetData("PlayerData", playerData);
-
-        DataManager.Ins.UserData = userData;
+        DataManager.Ins.UpdatePlayerData(coinAmount: -currentSkinItem.skinItem.cost);
     }
 
     private void OnEquipSkin()
     {
         UserData userData = DataManager.Ins.UserData;
 
-        List<ShopItem> shopItem = userData.Dict["ShopData"] as List<ShopItem>;
+        List<ShopItem> shopItem = userData.Dict[Constant.DATA_SHOPDATA] as List<ShopItem>;
         for (int i = 0; i < shopItem.Count; i++)
         {
             if (shopItem[i].statusType == StatusType.Equipped)
@@ -136,7 +130,7 @@ public class SkinItemList : MonoBehaviour
                 shopItem[i].statusType = StatusType.Equipped;
             }
         }
-        userData.SetData("ShopData", shopItem);
+        userData.SetData(Constant.DATA_SHOPDATA, shopItem);
         DataManager.Ins.UserData = userData;
         UpdateSkinItemUIList();
     }
@@ -162,7 +156,7 @@ public class SkinItemList : MonoBehaviour
     // {
     //     UserData userData = DataManager.Ins.UserData;
 
-    //     List<ShopItem> shopItem = userData.Dict["ShopData"] as List<ShopItem>;
+    //     List<ShopItem> shopItem = userData.Dict[Constant.DATA_SHOPDATA] as List<ShopItem>;
     //     for (int i = 0; i < shopItem.Count; i++)
     //     {
     //         if (shopItem[i].shopCategory == currentShopCategory)
@@ -173,7 +167,7 @@ public class SkinItemList : MonoBehaviour
     //             }
     //         }
     //     }
-    //     userData.SetData("ShopData", shopItem);
+    //     userData.SetData(Constant.DATA_SHOPDATA, shopItem);
     //     DataManager.Ins.UserData = userData;
     //     currentSkinItem.UpdateUI();
     // }

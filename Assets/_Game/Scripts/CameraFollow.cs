@@ -15,31 +15,40 @@ public class CameraFollow : Singleton<CameraFollow>
     [SerializeField] private Transform playerTransform;
     [SerializeField] private Transform offsetGameplay, offsetMainMenu, offsetShop;
     private Vector3 offset;
+    private Vector3 originalOffset;
     private Quaternion targetRotation;
+    private CameraFollowType cameraType;
 
     private void LateUpdate()
     {
         tf.position = Vector3.Lerp(tf.position, playerTransform.position + offset, Time.deltaTime * 100f);
         tf.rotation = Quaternion.Lerp(tf.rotation, targetRotation, Time.deltaTime * 100f);
-        // tf.LookAt(target);
+        tf.LookAt(cameraType == CameraFollowType.GamePlay ? playerTransform : null);
     }
 
     public void ChangeCameraType(CameraFollowType cameraType)
     {
+        this.cameraType = cameraType;
         switch (cameraType)
         {
             case CameraFollowType.MainMenu:
-                offset = offsetMainMenu.localPosition;
+                originalOffset = offsetMainMenu.localPosition;
                 targetRotation = offsetMainMenu.localRotation;
                 break;
             case CameraFollowType.GamePlay:
-                offset = offsetGameplay.localPosition;
+                originalOffset = offsetGameplay.localPosition;
                 targetRotation = offsetGameplay.localRotation;
                 break;
             case CameraFollowType.Shop:
-                offset = offsetShop.localPosition;
+                originalOffset = offsetShop.localPosition;
                 targetRotation = offsetShop.localRotation;
                 break;
         }
+        offset = originalOffset;
+    }
+
+    public void UpdateWithPlayerSize(float size)
+    {
+        offset = originalOffset * size;
     }
 }

@@ -9,13 +9,9 @@ public class Player : CharacterObject
     [Header("Player")]
     [SerializeField] private float speed = 5f;
     [SerializeField] private GameObject circleOutline;
-    private WeaponShopItem equippedWeaponData => (DataManager.Ins.UserData.Dict["WeaponShopData"] as List<WeaponShopItem>).Find(i => i.statusType == StatusType.Equipped);
-    private ShopItem currentSkinData => (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.statusType == StatusType.Equipped);
 
-    private void Start()
-    {
-        ChangeAnimation(Constant.ANIM_IS_IDLE);
-    }
+    private WeaponShopItem EquippedWeaponData => DataManager.Ins.weaponItemList.Find(i => i.statusType == StatusType.Equipped);
+    private ShopItem CurrentSkinData => DataManager.Ins.shopItemList.Find(i => i.statusType == StatusType.Equipped);
 
     private void Update()
     {
@@ -29,7 +25,7 @@ public class Player : CharacterObject
 
                 if (JoystickControl.direct != Vector3.zero)
                 {
-                    character.forward = JoystickControl.direct;
+                    TF.forward = JoystickControl.direct;
                 }
                 isMoving = true;
                 ChangeAnimation(Constant.ANIM_IS_RUN);
@@ -40,6 +36,7 @@ public class Player : CharacterObject
                 isMoving = false;
                 ChangeAnimation(Constant.ANIM_IS_IDLE);
             }
+
             if (currentTarget == null)
             {
                 FindTarget();
@@ -59,14 +56,6 @@ public class Player : CharacterObject
     public override void AddTarget(CharacterObject target)
     {
         base.AddTarget(target);
-        // if (!IsDead && !target.IsDead && currentTarget == null)
-        // {
-        // target.EnableTargetMark(true);
-        // if (!isMoving && characterSkin.currentWeapon.CanAttack)
-        // {
-        //     OnAttack();
-        // }
-        // }
     }
 
     public override void RemoveTarget(CharacterObject target)
@@ -75,19 +64,22 @@ public class Player : CharacterObject
         target.EnableTargetMark(false);
     }
 
-    public void Setup()
-    {
-        TF.forward = Vector3.back;
-        circleOutline.SetActive(GameManager.Ins.IsState(GameState.Gameplay) ? true : false);
-        characterSkin.ChangeWeapon(LevelManager.Ins.weaponItemData.itemDataList[equippedWeaponData.id]);
-        characterSkin.ChangeSkin(LevelManager.Ins.shopItemData.SkinItemDataList[(int)currentSkinData.shopCategory].itemDataList[currentSkinData.id]);
-    }
-
     // ICharacter inherit
     public override void OnInit()
     {
         base.OnInit();
-        circleOutline.SetActive(GameManager.Ins.IsState(GameState.Gameplay) ? true : false);
+        characterSkin.ChangeWeapon(LevelManager.Ins.weaponItemData.itemDataList[EquippedWeaponData.id]);
+        characterSkin.ChangeSkin(LevelManager.Ins.shopItemData.SkinItemDataList[(int)CurrentSkinData.shopCategory].itemDataList[CurrentSkinData.id]);
+        characterName = Constant.CHARACTER_NAME;
+        SetCircleOutLine();
+        //Update Anim
+        ChangeAnimation(Constant.ANIM_IS_IDLE);
+    }
+
+    public override void OnPlay()
+    {
+        nameTag.OnInit(characterName, characterSkin.CurrentBodyMat.color);
+        SetCircleOutLine();
     }
 
     public override void OnDespawn()
@@ -98,23 +90,22 @@ public class Player : CharacterObject
     public override void OnAttack()
     {
         base.OnAttack();
-        // if (currentTarget != null && characterSkin.currentWeapon.CanAttack)
-        // {
-        //     if (!currentTarget.IsDead)
-        //     {
-        //         ResetAnim();
-        //         Attack();
-        //     }
-        //     else
-        //     {
-        //         RemoveTarget(currentTarget);
-        //     }
-        // }
     }
 
-    public override void OnDeath()
+    public override void OnDeath(CharacterObject attacker)
     {
-        base.OnDeath();
+        base.OnDeath(attacker);
+        nameTag.OnDespawn();
     }
 
+    public override void OnKill()
+    {
+        base.OnKill();
+        CameraFollow.Ins.UpdateWithPlayerSize(size);
+    }
+
+    private void SetCircleOutLine()
+    {
+        circleOutline.SetActive(GameManager.Ins.IsState(GameState.Gameplay) ? true : false);
+    }
 }

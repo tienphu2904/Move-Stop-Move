@@ -6,39 +6,33 @@ using UnityEngine;
 
 public class BulletObject : GameUnit
 {
-    [SerializeField] protected float moveSpeed = 8f;
+    [SerializeField] protected float moveSpeed = 12f;
     protected CharacterObject character;
-    protected Action<CharacterObject, CharacterObject> onHit;
-    private float liveTime;
+    protected float liveRange;
+    protected Vector3 startPoint;
     private float bulletSize;
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         bulletSize = 1f;
-        liveTime = 1f;
+        liveRange = Constant.CHARACTER_SIGHT_RADIUS;
     }
 
     protected virtual void Update()
     {
-        liveTime -= Time.deltaTime;
-        if (liveTime < 0f)
+        if (Vector3.Distance(startPoint, TF.position) > liveRange)
         {
             OnDespawn();
         }
     }
 
-    public virtual void OnInit(CharacterObject character, Vector3 target, float size)
+    public virtual void OnInit(CharacterObject character, Vector3 target, Vector3 startPoint, float size)
     {
         this.character = character;
-        TF.forward = (target - TF.position).normalized;
+        this.startPoint = startPoint;
+        TF.forward = target - TF.position;
         bulletSize = size;
-        liveTime *= bulletSize;
-    }
-
-    public virtual void OnInit(CharacterObject attacker, Action<CharacterObject, CharacterObject> onHit)
-    {
-        this.character = attacker;
-        this.onHit = onHit;
+        liveRange *= bulletSize;
     }
 
     public void OnDespawn()
@@ -52,19 +46,13 @@ public class BulletObject : GameUnit
         if (other.CompareTag(Constant.TAG_CHARACTER))
         {
             CharacterObject target = Cache.GetCharacter(other);
-            if (target != character)
+            if (target != character && !target.IsDead)
             {
                 OnDespawn();
-                target.OnDeath();
+                target.OnDeath(character);
+                character.RemoveTarget(target);
+                character.OnKill();
             }
         }
     }
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     if (other.CompareTag(Constant.TAG_CHARACTER))
-    //     {
-    //         CharacterObject victim = Cache.GetCharacter(other);
-    //         onHit?.Invoke(character, victim);
-    //     }
-    // }
 }

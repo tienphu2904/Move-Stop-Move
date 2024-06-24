@@ -33,7 +33,7 @@ public class SkinItemUICard : MonoBehaviour, IPointerClickHandler
 
     public void UpdateUI()
     {
-        ShopItem shopData = (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.id == skinItem.id && i.shopCategory == shopCategory);
+        ShopItem shopData = DataManager.Ins.shopItemList.Find(i => i.id == skinItem.id && i.shopCategory == shopCategory);
         switch (shopData.statusType)
         {
             case StatusType.Lock:

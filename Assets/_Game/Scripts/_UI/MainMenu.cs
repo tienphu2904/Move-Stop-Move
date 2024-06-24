@@ -16,7 +16,7 @@ public class MainMenu : UICanvas
 
     public void UpdateCoinValue()
     {
-        coinText.text = ((PlayerData)DataManager.Ins.UserData.Dict["PlayerData"]).coin.ToString();
+        coinText.text = DataManager.Ins.CoinValue.ToString();
     }
 
     public void OpenShopButton()
@@ -27,8 +27,6 @@ public class MainMenu : UICanvas
     public void AdsButton()
     {
         Debug.Log("AdsButton");
-        // DataManager.Ins.LoadShopData();
-        UserData u = DataManager.Ins.UserData;
     }
 
     public void VibrateButton()

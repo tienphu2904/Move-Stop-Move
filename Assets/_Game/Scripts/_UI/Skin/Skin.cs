@@ -8,7 +8,7 @@ public class Skin : UICanvas
     [SerializeField] private TextMeshProUGUI coinText;
     [SerializeField] private SkinItemList skinItemComponent;
 
-    private int coinValue => ((PlayerData)DataManager.Ins.UserData.Dict["PlayerData"]).coin;
+    private int coinValue => DataManager.Ins.CoinValue;
 
     private void OnEnable()
     {
@@ -20,12 +20,11 @@ public class Skin : UICanvas
     public void CloseButton()
     {
         UIManager.Ins.OpenUI<MainMenu>();
-        skinItemComponent.OnTrySkinItem(skinItemComponent.EquippedSkin());
+        skinItemComponent.EquipCorrectSkin();
         Close(0);
     }
 
-
-    private void UpdateCoinText()
+    public void UpdateCoinText()
     {
         coinText.text = coinValue.ToString();
     }

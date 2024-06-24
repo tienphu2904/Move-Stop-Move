@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c13ba1768d1412a86239aff0a3efdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDestroyOnClose: 0
+  IsDestroyOnClose: 1
   coinText: {fileID: 7828430443806891965}
   skinItemComponent: {fileID: 3991831623966753042}
 --- !u!1 &1566978892329121597

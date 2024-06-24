@@ -9,39 +9,37 @@ public class SkinObject : GameUnit
     [SerializeField] private SkinnedMeshRenderer pantMesh, bodyMesh;
     [SerializeField] private Material defaultBodyMat;
 
-    internal WeaponObject currentWeapon;
-    private WeaponShopItem currentWeaponData => (DataManager.Ins.UserData.Dict["WeaponShopData"] as List<WeaponShopItem>).Find(i => i.statusType == StatusType.Equipped);
-
-    internal SkinItem currentSkin;
-    private ShopItem currentSkinData => (DataManager.Ins.UserData.Dict["ShopData"] as List<ShopItem>).Find(i => i.statusType == StatusType.Equipped);
-
+    public WeaponObject currentWeapon;
     private List<GameUnit> skinItemList = new List<GameUnit>();
+
+    public Material CurrentBodyMat => bodyMesh.material;
+
+    public void OnDespawn()
+    {
+        RemoveWeapon();
+        ClearSkin();
+    }
 
     // Skin Control
     public void ChangeSkin(SkinItem item)
     {
-        currentSkin = item;
         foreach (SkinFragment skinFragment in item.skinFragments)
         {
             switch (skinFragment.skinType)
             {
                 case SkinType.Head:
-                    // GameObject headSkinFrag = Instantiate(skinFragment.prbSkinItem, headSkinItemPosition);
                     GameUnit headSkinFrag = SimplePool.Spawn<HeadSkin>(skinFragment.poolType, headSkinItemPosition);
                     skinItemList.Add(headSkinFrag);
                     break;
                 case SkinType.Back:
-                    // GameObject backSkinFrag = Instantiate(skinFragment.prbSkinItem, backSkinItemPosition);
                     GameUnit backSkinFrag = SimplePool.Spawn<BackSkin>(skinFragment.poolType, backSkinItemPosition);
                     skinItemList.Add(backSkinFrag);
                     break;
                 case SkinType.LeftHand:
-                    // GameObject leftHandSkinFrag = Instantiate(skinFragment.prbSkinItem, leftHandSkinItemPosition);
                     GameUnit leftHandSkinFrag = SimplePool.Spawn<LeftHandSkin>(skinFragment.poolType, leftHandSkinItemPosition);
                     skinItemList.Add(leftHandSkinFrag);
                     break;
                 case SkinType.Tail:
-                    // GameObject tailSkinFrag = Instantiate(skinFragment.prbSkinItem, tailSkinItemPosition);
                     GameUnit tailSkinFrag = SimplePool.Spawn<TailSkin>(skinFragment.poolType, tailSkinItemPosition);
                     skinItemList.Add(tailSkinFrag);
                     break;
@@ -59,10 +57,12 @@ public class SkinObject : GameUnit
 
     public void ClearSkin()
     {
-        foreach (GameUnit item in skinItemList)
+        for (int i = 0; i < skinItemList.Count; i++)
         {
-            // Destroy(item.gameObject);
-            SimplePool.Despawn(item);
+            if (skinItemList[i] != null)
+            {
+                SimplePool.Despawn(skinItemList[i]);
+            }
         }
         skinItemList.Clear();
         pantMesh.materials = new Material[0];

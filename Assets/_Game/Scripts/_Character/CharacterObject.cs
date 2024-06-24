@@ -8,28 +8,37 @@ public abstract class ICharacter : GameUnit
 {
     public abstract void OnInit();
     public abstract void OnDespawn();
-    public abstract void OnDeath();
+    public abstract void OnDeath(CharacterObject attacker);
     public abstract void OnAttack();
+    public abstract void OnPlay();
+    public abstract void OnKill();
 }
 
 public class CharacterObject : ICharacter
 {
     private const float CHARACTER_COLLIDER_RADIUS = .5f;
+    private const float CHARACTER_SIZE_INCREASE = .1f;
+    private const float CHARACTER_DEFAULT_SIZE = 1f;
+
 
     [SerializeField] protected Transform character;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] protected Animator anim;
     [SerializeField] GameObject targetMask;
-    [SerializeField] public SkinObject characterSkin;
+    [SerializeField] protected SkinObject characterSkin;
+    [SerializeField] protected NameTag nameTag;
 
     public bool isDead;
+    public float size = 1f;
+    public string characterName;
+    public int killNumber;
     protected bool isMoving;
     protected string currentAnim;
     protected List<GameUnit> skinItemList = new List<GameUnit>();
     public List<CharacterObject> targetList = new List<CharacterObject>();
     public CharacterObject currentTarget;
     protected Vector3 targetPoint;
-    protected float size = 1f;
+    protected Coroutine attackCoroutine;
 
     public bool IsDead { get => isDead; set => isDead = value; }
     public bool CanAttack => targetList.Count > 0;
@@ -37,12 +46,19 @@ public class CharacterObject : ICharacter
     // ICharacter inherit
     public override void OnInit()
     {
-
+        ResetSize();
+        isDead = false;
+        currentTarget = null;
+        targetList.Clear();
+        TF.forward = Vector3.back;
+        killNumber = 0;
     }
+
+    public override void OnPlay() { }
 
     public override void OnDespawn()
     {
-
+        nameTag.OnDespawn();
     }
 
     public override void OnAttack()
@@ -68,10 +84,18 @@ public class CharacterObject : ICharacter
         }
     }
 
-    public override void OnDeath()
+    public override void OnDeath(CharacterObject attacker)
     {
         IsDead = true;
         ChangeAnimation(Constant.ANIM_IS_DEAD);
+        LevelManager.Ins.OnCharacterDeath(attacker, this);
+    }
+
+    public override void OnKill()
+    {
+        UpdateSize();
+        killNumber++;
+        nameTag.SetKillCountText(killNumber);
     }
 
     //Moving control
@@ -88,7 +112,16 @@ public class CharacterObject : ICharacter
 
     public void Attack()
     {
-        StartCoroutine(characterSkin.currentWeapon.Shoot(character: this, target: targetPoint, size: 1f));
+        attackCoroutine = StartCoroutine(characterSkin.currentWeapon.Shoot(character: this, target: targetPoint, startPoint: TF.position, size: size));
+    }
+
+    protected void StopAttackCoroutine()
+    {
+        if (attackCoroutine != null)
+        {
+            StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+        }
     }
 
     // Skin Control
@@ -152,6 +185,20 @@ public class CharacterObject : ICharacter
                 }
             }
         }
+    }
+
+    //Size controller
+
+    private void UpdateSize()
+    {
+        size += CHARACTER_SIZE_INCREASE;
+        TF.localScale = Vector3.one * size;
+    }
+
+    public void ResetSize()
+    {
+        size = CHARACTER_DEFAULT_SIZE;
+        TF.localScale = Vector3.one * size;
     }
 
     //Animation

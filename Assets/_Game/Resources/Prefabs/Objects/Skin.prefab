@@ -61,7 +61,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalRotation.x
@@ -69,7 +69,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalRotation.z
@@ -81,7 +81,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poolType: 0
-  weaponPosition: {fileID: 2758716250628959102}
+  weaponPosition: {fileID: 6140864662940698235}
   headSkinItemPosition: {fileID: 4487215521951646831}
   backSkinItemPosition: {fileID: 3229162988128913770}
   tailSkinItemPosition: {fileID: 4001355402867068571}
@@ -132,6 +132,7 @@ MonoBehaviour:
   pantMesh: {fileID: 981844200550159502}
   bodyMesh: {fileID: 8232909522530161133}
   defaultBodyMat: {fileID: 2100000, guid: 78fbc47ef0b1241219f380ba3c39bbd9, type: 2}
+  currentWeapon: {fileID: 0}
 --- !u!137 &981844200550159502 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -529177695146175607, guid: 38f9296dc39c27647a0119314baf12a2, type: 3}

@@ -7,7 +7,6 @@ public class BulletForward : BulletObject
     protected override void Update()
     {
         base.Update();
-        Debug.Log("bbb");
         TF.Translate(TF.forward * moveSpeed * Time.deltaTime, Space.World);
     }
 }
